@@ -1,0 +1,183 @@
+<%- include("../header.ejs")%> <%- include("../partials/navbar.ejs")%>
+<section>
+  <div class="container col-10 mt-5">
+    <div class="row">
+      <%- include("../partials/usersidebar.ejs")%>
+      <div class="col-8">
+      <div class="row">
+        <div class="col-8 bg-danger-subtle rounded-5">
+          <form action="" id="editUser">
+            <div class="container">
+              <div class="row">
+                <div class="col-8 p-5">
+                  <div>
+                    <input
+                      type="text"
+                      class="form-control-plaintext border-1 border-black rounded-5 text-center m-3"
+                      id="formUsername"
+                      placeholder="Username"
+                      disabled
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      class="form-control-plaintext border-1 border-black rounded-5 text-center m-3"
+                      placeholder="Mobile number"
+                      id="formMobileNo"
+                      disabled
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      class="form-control-plaintext border-1 border-black rounded-5 text-center m-3"
+                      placeholder="Email"
+                      disabled
+                      id="formEmail"
+                    />
+                  </div>
+                  <div class="d-flex gap-5">
+                    <div class="ps-5">
+                      <span>Gender</span>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="formGenderMale"
+                        disabled
+                      />
+                      <label class="form-check-label" for="flexRadioDefault1">
+                        male
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="formGenderFemale"
+                        checked
+                        disabled
+                      />
+                      <label class="form-check-label" for="flexRadioDefault2">
+                        women
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="dateInput" class="ms-3 mt-3"
+                      >Date of birth:</label
+                    >
+                    <input
+                      type="date"
+                      class="form-control-plaintext border-1 border-black rounded-5 p-2 text-center m-3"
+                      id="formDateInput"
+                      name="dateInput"
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div class="col"></div>
+              </div>
+            </div>
+            <div class="mb-3 ms-5 ps-4">
+              <button
+                type="button"
+                id="editButton"
+                class="btn btn-primary mt-3"
+              >
+                Edit
+              </button>
+              <button
+                type="submit"
+                id="submitButton"
+                class="btn btn-success d-none mt-3"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="col-3">
+          <div class="card" style="width: 22rem;">
+            <div class="card-body">
+              <h6 class="card-title">Profile</h6>
+              <table class="table card-text ">
+                <tbody>
+                  <tr>
+                   
+                    <td>username</td>
+                    <td><%=userprofile.name%></td>
+                    
+                  </tr>
+                  <tr>
+               
+                    <td>email</td>
+                    <td><%=userprofile.email%></td>
+                    
+                  </tr>
+                  <tr>
+                   
+                    <td >mobileno</td>
+                    <td><%=userprofile.mobilenumber%></td>
+                   
+                  </tr>
+                  <tr>
+                    <td>gender</td>
+                    <td><%=userprofile.gender%></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    // Add event listener to the edit button
+    $("#editButton").on("click", function () {
+      // Enable input fields
+      $("#formUsername").prop("disabled", false);
+      $("#formMobileNo").prop("disabled", false);
+      $("#formEmail").prop("disabled", false);
+      $("#formGenderFemale").prop("disabled", false);
+      $("#formGenderMale").prop("disabled", false);
+      $("#formDateInput").prop("disabled", false);
+
+      // Show submit button and hide edit button
+      $("#submitButton").removeClass("d-none");
+      $(this).addClass("d-none");
+    });
+
+    // Add event listener to the form submission
+    $("#editUser").on("submit", function (e) {
+      // Prevent default form submission
+      e.preventDefault();
+
+      // Your submission logic here
+      console.log("Form submitted!");
+
+      // Disable input fields
+      $("#formUsername").prop("disabled", true);
+      $("#formMobileNo").prop("disabled", true);
+      $("#formEmail").prop("disabled", true);
+      $("#formGenderFemale").prop("disabled", true);
+      $("#formGenderMale").prop("disabled", true);
+      $("#formDateInput").prop("disabled", true);
+
+      // Show edit button and hide submit button
+      $("#editButton").removeClass("d-none");
+      $("#submitButton").addClass("d-none");
+    });
+  });
+</script>
+<%- include("../footer.ejs")%>

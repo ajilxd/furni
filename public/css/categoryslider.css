@@ -1,0 +1,25 @@
+.slider-container {
+  overflow: hidden;
+}
+.slider {
+  display: flex;
+}
+.card {
+  flex: 0 0 auto;
+  width: 300px; /* Adjust according to your card width */
+  margin-right: 20px; /* Adjust spacing between cards */
+}
+.slide-button {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 10px;
+}
+.slide-button-left {
+  left: 10px;
+}
+.slide-button-right {
+  right: 10px;
+}

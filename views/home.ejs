@@ -1,0 +1,97 @@
+<%- include("./header.ejs")%> <%- include("./partials/navbar.ejs")%>
+
+<div class="container text-center mt-2">
+  <div class="row">
+    <div class="col-sm position-relative">
+      <!-- Image -->
+      <img
+        style="height: 250px"
+        src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        alt=""
+      />
+      <!-- Heading Tag with Lower Z-Index -->
+      <h2
+        class="position-absolute bottom-0 start-50 translate-middle text-white"
+        style="z-index: 1"
+      >
+        Sofa's
+      </h2>
+    </div>
+
+    <div class="col-sm position-relative">
+      <!-- Image -->
+      <img
+        style="height: 250px"
+        src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        alt=""
+      />
+      <!-- Heading Tag with Lower Z-Index -->
+      <h2
+        class="position-absolute bottom-0 start-50 translate-middle text-white"
+        style="z-index: 1"
+      >
+        Sofa's
+      </h2>
+    </div>
+    <div class="col-sm position-relative">
+      <!-- Image -->
+      <img
+        style="height: 250px"
+        src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        alt=""
+      />
+      <!-- Heading Tag with Lower Z-Index -->
+      <h2
+        class="position-absolute bottom-0 start-50 translate-middle text-white"
+        style="z-index: 1"
+      >
+        Sofa's
+      </h2>
+    </div>
+  </div>
+</div>
+<!-- create a slider of categories -->
+<div class="border-3 d-flex justify-content-center">
+  <div
+    style="margin-top: 4%"
+    class="p-5 bg-light bg-opacity-50 shadow-sm col-10 d-flex flex-wrap mb-5"
+  >
+    <div class="container">
+      <div class="row">
+        <div class=""><span class="display-5">For you</span></div>
+      </div>
+    </div>
+    <%productData.map(i=>{%>
+    <a
+      href="/product/<%=i._id%>"
+      style="text-decoration: none"
+      class="text-black"
+    >
+      <div class="card m-5 p-4" style="width: 18rem">
+        <img
+          src="/multer/products/<%=i.image[0]%>"
+          class="card-img-top"
+          alt="..."
+        />
+        <div class="card-body">
+          <h5 class="card-title"><%=i.productName%></h5>
+          <p class="card-text"><%=i.description%></p>
+          <div>
+            <div class="d-flex justify-content-between align-items-center m-2">
+              <span class="original-price badge text-bg-warning opacity-100"
+                >90<%= i.originalPrice %></span
+              >
+              <span class="discounted-price badge text-bg-success opacity-100"
+                >90<%= i.discountedPrice %></span
+              >
+              <a href="#" class="btn text-black-50">Add to Cart</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+    <%})%>
+  </div>
+</div>
+
+<%- include("./footer.ejs")%>

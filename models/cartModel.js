@@ -1,0 +1,31 @@
+const mongoose = require("mongoose");
+const Objectid = mongoose.Schema.Types.ObjectId;
+const cartSchema = new mongoose.Schema({
+  productId: {
+    type: Objectid,
+    ref: "products",
+  },
+  userId: {
+    type: Objectid,
+  },
+  quantity: {
+    type: Number,
+  },
+  price: {
+    type: Number,
+  },
+  totals: {
+    type: Number,
+  },
+  productname: {
+    type: String,
+    required: true,
+  },
+  isOrder: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const cartModel = mongoose.model("cart", cartSchema);
+module.exports = cartModel;

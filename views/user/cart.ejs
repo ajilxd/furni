@@ -1,0 +1,204 @@
+<%- include("../header.ejs")%> <%- include("../partials/navbar.ejs")%>
+
+<style>
+  .quantity-counter {
+    display: flex;
+    align-items: center;
+  }
+
+  .quantity-input {
+    width: 50px;
+    text-align: center;
+  }
+</style>
+
+<section class="d-flex justify-content-center mt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-8">
+        <!-- cart table -->
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Item</th>
+              <th scope="col">Title</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% cartData.forEach((item, index) => { %>
+            <tr>
+              <td>
+                <img
+                  src="/multer/products/<%= item.productId.image[0] %>"
+                  alt=""
+                  style="height: 100px"
+                />
+              </td>
+              <td>
+                <span class="font-monospace"
+                  ><%= item.productId.productName %></span
+                >
+              </td>
+              <td>
+                <div class="d-flex" >
+                  <button class="counter-button rounded-pill decrement " data-action="decrement" data-id="<%= item._id %>">-</button>
+                  <div class="border-1 rounded-3 p-2"><span id="count<%=index%>"><%=item.quantity%></span></div>
+                  <button class="counter-button  rounded-pill increment" data-action="increment" data-id="<%= item._id %>">+</button>
+                </div>
+                
+                </div>
+              </td>
+              <td>
+                <span
+                  class="font-monospace totalPrice"
+                  id="totalPrice<%= index %>"
+                  ><%= item.totals %></span
+                >
+              </td>
+              <input
+                type="text"
+                id="unitprice<%= index %>"
+                hidden
+                value="<%= item.price %>"
+              />
+              <td>
+                <button
+                  class="btn-sm btn-outline-danger rounded-2 removebutton"
+                  value="<%=item._id%>"
+                >
+                  remove
+                </button>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-4 bg-black">
+        <!-- checkout -->
+      </div>
+    </div>
+  </div>
+</section>
+<div class="container">
+  <div class="row">
+    <div><span id="SumOfAllProducts">0</span></div>
+    <div>
+      <a href="/checkout"
+        ><button class="btn btn-dark">Proceed to checkout!</button></a
+      >
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  //decrement
+  document.addEventListener("DOMContentLoaded", function () {
+    const decrementButtons = document.querySelectorAll(".decrement");
+
+    decrementButtons.forEach((i, index) => {
+      const unitprice = Number(document.getElementById(`unitprice${index}`).value);
+      // console.log(unitprice);
+      i.addEventListener("click", function () {
+       let count=document.getElementById(`count${index}`).textContent;
+       if(count>1){
+       document.getElementById(`count${index}`).textContent-=1;
+       document.getElementById('SumOfAllProducts').textContent=Number(document.getElementById('SumOfAllProducts').textContent)-Number(unitprice);
+      }
+      let quantity=Number(document.getElementById(`count${index}`).textContent);
+
+      const cartItemId = i.getAttribute('data-id');
+
+      console.log(cartItemId );
+
+      axios.post(`/cart/quantitychange/${quantity}`,{ cartItemId})
+  .then((response) => {
+    console.log('Quantity change sent to server', response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+
+      document.getElementById(`totalPrice${index}`).textContent=unitprice*quantity;
+
+    
+      });
+    });
+  });
+ //increment
+ document.addEventListener("DOMContentLoaded", function () {
+    const incrementButtons = document.querySelectorAll(".increment");
+
+    incrementButtons.forEach((i, index) => {
+      const unitprice = Number(document.getElementById(`unitprice${index}`).value);
+      // console.log(unitprice);
+      i.addEventListener("click", function () {
+
+       let count=Number(document.getElementById(`count${index}`).textContent);
+
+       document.getElementById(`count${index}`).textContent=count+1;
+
+       let quantity=Number(document.getElementById(`count${index}`).textContent);
+
+      document.getElementById(`totalPrice${index}`).textContent=unitprice*quantity;
+
+      const cartItemId = i.getAttribute('data-id');
+
+      console.log(cartItemId );
+       document.getElementById('SumOfAllProducts').textContent=Number(document.getElementById('SumOfAllProducts').textContent)+Number(unitprice);
+      axios.post(`/cart/quantitychange/${quantity}`,{ cartItemId})
+  .then((response) => {
+    console.log('Quantity change sent to server', response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+      });
+    });
+  });
+
+  //remove
+  document.addEventListener("DOMContentLoaded", function () {
+    let removebuttons = document.querySelectorAll(".removebutton");
+    removebuttons.forEach((i) => {
+      i.addEventListener("click", function () {
+        var cartItemId = event.target.value;
+        axios
+          .get(`/cart/remove/${cartItemId}`)
+          .then((response) => {
+            console.log("Item added to cart:", response.data);
+            // Optionally, you can redirect to another page or show a success message here
+          })
+          .catch((error) => {
+            console.error("Error adding item to cart:", error);
+            // Handle errors here, show an error message to the user, etc.
+          });
+          location.reload();
+      });
+
+
+    });
+  });
+
+  //sum of all products
+
+  document.addEventListener("DOMContentLoaded", function () {
+    let sum=0;
+    prices=document.querySelectorAll('.totalPrice');
+    prices.forEach(i=>{
+       sum +=Number(i.textContent);
+      })
+     document.getElementById('SumOfAllProducts').textContent=sum;
+    });
+
+  //sum of all products when price value is mutated
+
+</script>
+
+<%- include("../footer.ejs") %>

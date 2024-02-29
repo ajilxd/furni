@@ -1,0 +1,395 @@
+<%- include("../header.ejs")%> <%- include("../partials/navbar.ejs")%>
+
+<div class="container my-5 bg-light">
+  <div class="row">
+   
+    <!-- Address selection section -->
+
+    <!-- Orders section -->
+    <div class="col-6 bg-light">
+      <div class="p-3">
+        <h3 class="text-center">Your Orders</h3>
+        <div class="card m-3">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <div>Product name</div>
+                <div>nos</div>
+                <div>price</div>
+              </div>
+            </li>
+            <% cartData.forEach(cartitem => { %>
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <div><%= cartitem.productname %></div>
+                <div><%= cartitem.quantity %></div>
+                <div><%= cartitem.totals %></div>
+              </div>
+            </li>
+            <% }) %>
+          </ul>
+
+          <div class="m-5 d-flex border-top border-1">
+            <ul class="list-group list-group-flush list-unstyled">
+              <li>
+                <div class="d-flex justify-content-center">
+                  <div>Totals</div>
+                  <div class="px-3"><%=userData.totalcart%>/-</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form action=""  id="applyCouponForm">
+    <div class="col-4 mx-auto  ">
+     <div class="card m-5" style="width: 24rem;">
+      <div class="card-body">
+        <h5 class="card-title">Apply coupon</h5>
+        <label for="inputPassword5" class="form-label">Paste your coupon or write the coupon.</label>
+        <input type="text" id="inputPassword5" class="form-control shadow-none " aria-describedby="passwordHelpBlock">
+      </div>
+      <div class="d-flex justify-content-center m-3">
+      <div><button class="btn btn-dark " type="submit">Apply coupon</button></div>
+    </div>
+    </div>
+  </form>
+    
+</div>
+
+<!-- Payment -->
+<form method="post" action="/checkout">
+<div class="container mb-5">
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        id="home-tab"
+        data-toggle="tab"
+        href="#home"
+        role="tab"
+        aria-controls="home"
+        aria-selected="true"
+        >Payment</a
+      >
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        id="profile-tab"
+        data-toggle="tab"
+        href="#profile"
+        role="tab"
+        aria-controls="profile"
+        aria-selected="false"
+        >Address</a
+      >
+    </li>
+  </ul>
+  <!-- payment -->
+  <div class="tab-content" id="myTabContent">
+    
+    <div
+      class="tab-pane fade show active pt-3 pb-5 ps-3"
+      id="home"
+      role="tabpanel"
+      aria-labelledby="home-tab"
+    >
+      <h3>Payment option</h3>
+      <div class="form-check d-flex align-items-center">
+        <div class="">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="payment"
+            id="flexRadioDefault1"
+            value="cod"
+          />
+        </div>
+        <div class="card" style="width: 18rem">
+          <div class="card-body">
+            <h5 class="card-title">Cash on delivary</h5>
+            <p class="card-text">Estimated delivery : 10/08/2024</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div
+      class="tab-pane fade"
+      id="profile"
+      role="tabpanel"
+      aria-labelledby="profile-tab"
+    >
+    <!-- Address section -->
+      <h4 class="ps-3 pt-3 pb-5">Address</h4>
+      <div>
+        <div class="d-flex">
+          <% addressData.forEach(address => { %>
+          <div class="d-flex">
+            <label class="card m-3">
+              <div class="card-body">
+                <h5 class="card-title"><%= address.typeofaddress %></h5>
+                <table class="table">
+                  <tr>
+                    <td>
+                      <span class="pe">Country:</span> <%= address.country %>
+                    </td>
+                    <td><span>State:</span> <%= address.state %></td>
+                  </tr>
+                  <tr>
+                    <td><span>City:</span> <%= address.city %></td>
+                    <td><span>Street:</span> <%= address.street %></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <span>Landmark:</span> <%= address.landmark %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <span>Pincode:</span> <%= address.pincode %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span>Name:</span> <%= address.name %></td>
+                    <td><span>Mobileno:</span> <%= address.mobileno %></td>
+                  </tr>
+                </table>
+              </div>
+              <!-- Address section -->
+              <div class="d-flex justify-content-end px-3">
+                <div class="d-flex">
+                  <span class="small px-3">Select address</span>
+                  <input
+                    class="form-check p-2"
+                    type="radio"
+                    name="address"
+                    value="<%= address._id %>"
+                  />
+                </div>
+              </div>
+            </label>
+          
+            <% }) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+    <div class="d-flex justify-content-start ms-3 mb-3">
+      <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+       Add address
+      </button>
+    </div>
+    <div >
+      <div class="collapse collapse-horizontal" id="collapseWidthExample">
+        <div class="card card-body col-8" >
+    <div class="ms-3 ">
+      <form
+        class="card mt-2"
+        id="addaddress"
+       
+        method="post"
+      >
+        <div class="card-body">
+          <h5 class="card-title">Add address</h5>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label  class="form-label">Country</label>
+              <input
+                type="text"
+                class="form-control shadow-none"
+                name="country"
+                id="inputcountry"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="inputPassword4" class="form-label">State</label>
+              <input
+                type="text"
+                class="form-control shadow-none"
+                name="state"
+                id="inputstate"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="inputEmail4" class="form-label">City</label>
+              <input
+                type="text"
+                class="form-control shadow-none"
+                name="city"
+                id="inpucity"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="inputPassword4" class="form-label">Street</label>
+              <input
+                type="text"
+                class="form-control shadow-none"
+                name="street"
+                id="street"
+              />
+            </div>
+            <div class="col-12">
+              <label for="inputAddress2" class="form-label">Landmark</label>
+              <input
+                type="text"
+                class="form-control shadow-none"
+                name="landmark"
+                id="input-landmark"
+              />
+            </div>
+            <div class="col-md-4">
+              <label for="inputCity" class="form-label">Name</label>
+              <input
+                type="text"
+                class="form-control shadow-none"
+                name="name"
+                id="name"
+              />
+            </div>
+            <div class="col-md-5">
+              <label for="inputState" class="form-label">Mobileno</label>
+              <input
+                type="text"
+                class="form-control shadow-none"
+                name="mobileno"
+                id="mobileno"
+              />
+            </div>
+            <div class="col-md-2">
+              <label for="inputZip" class="form-label">Pincode</label>
+              <input
+                type="text"
+                class="form-control shadow-none"
+                name="pincode"
+                id="pincode"
+              />
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-dark">Submit</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  
+  </div>
+  </div>
+  </div>
+</div>
+<div class="d-flex justify-content-center ">
+  <div>
+    <button class="btn btn-lg btn-success  " type="submit" id="placeorder">Place order</button>
+  </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#myTab a").on("click", function (e) {
+          e.preventDefault();
+          $(this).tab("show");
+        });
+      });
+      let selectedPaymentMethod;
+      let couponCode;
+      let addressId;
+      document.addEventListener("DOMContentLoaded", function() {
+  // Add event listener for payment method selection
+  document.querySelectorAll('input[name="payment"]').forEach(function(radio) {
+    radio.addEventListener('change', function(event) {
+       selectedPaymentMethod = event.target.value;
+      // Make Axios POST request with selected payment method
+      // axios.post("/checkout/payment", { paymentMethod: selectedPaymentMethod })
+      //   .then(function(response) {
+      //     console.log(response.data);
+      //     alert("Payment method submitted successfully!");
+      //   })
+      //   .catch(function(error) {
+      //     console.error(error);
+      //     alert("Error submitting payment method.");
+      //   });
+    });
+  });
+
+  // Add event listener for address selection
+  document.querySelectorAll('input[name="address"]').forEach(function(radio) {
+    radio.addEventListener('change', function(event) {
+       addressId = event.target.value;
+      // Make Axios POST request with selected address ID
+      // axios.post("/checkout/address", { addressId: addressId })
+      //   .then(function(response) {
+      //     console.log(response.data);
+      //     alert("Address submitted successfully!");
+      //   })
+      //   .catch(function(error) {
+      //     console.error(error);
+      //     alert("Error submitting address.");
+      //   });
+    });
+  });
+
+  // Add event listener for adding a new address form submission
+  document.getElementById("addaddress").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent default form submission behavior
+
+    // Get form data
+     const formData = new FormData(this);
+
+    // Convert form data to JSON object
+     jsonObject = {};
+     formData.forEach(function(value, key) {
+      jsonObject[key] = value;
+    });
+
+    // Make Axios POST request
+    axios.post("/checkout/addaddress", jsonObject)
+      .then(function(response) {
+        console.log(response.data);
+        alert("New address submitted successfully!");
+      })
+      .catch(function(error) {
+        console.error(error);
+        alert("Error submitting new address.");
+      });
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+  // Add event listener for form submission when applying a coupon
+  document.getElementById("applyCouponForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent default form submission behavior
+
+    // Get coupon code from the input field
+    couponCode = document.getElementById("inputPassword5").value;
+
+    // Make Axios POST request to apply the coupon
+    // axios.post("/checkout/applycoupon", { couponCode: couponCode })
+    //   .then(function(response) {
+    //     console.log(response.data);
+    //     alert("Coupon applied successfully!");
+    //   })
+    //   .catch(function(error) {
+    //     console.error(error);
+    //     alert("Error applying coupon.");
+    //   });
+  });
+
+  document.getElementById('placeorder').addEventListener('click',function(){
+    event.preventDefault();
+    axios.post('/checkout',{ selectedPaymentMethod,
+       couponCode,
+      addressId})
+  })
+});
+
+    </script>
+    <%- include("../footer.ejs")%>
+ 
+   
